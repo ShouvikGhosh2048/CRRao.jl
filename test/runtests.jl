@@ -29,6 +29,10 @@ CRRao.set_rng(StableRNG(123))
             include("numerical/LinearRegression.jl")
         end
 
+        @testset "Logistic Regression" begin
+            include("numerical/LogisticRegression.jl")
+        end
+
         @testset "Poisson Regression" begin
             include("numerical/PoissonRegression.jl")
         end
