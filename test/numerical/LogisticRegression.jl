@@ -1,6 +1,6 @@
 turnout = dataset("Zelig", "turnout")[1:100,:] # Take a subset of rows to reduce input size
 
-link_tests = [
+frequentist_tests = [
     (
         Logit(),
         [[-3.115250226343716, 0.02678824815513655, -0.316228875672267, 0.3912504801394897, 0.18558746354177186], [1.6619797529149387, 0.014557716632590404, 0.769732115940088, 0.1519012178319058, 0.10029080592418851], [-1.87442128634834, 1.8401407879561016, -0.410829779768317, 2.5756902131782002, 1.8504932912999075], [0.06087238185014436, 0.06574757040517729, 0.6811973551391216, 0.010004023142671487, 0.06424248407476521], [-6.37267068509178, -0.0017443521418804078, -1.8248761006586514, 0.09352956398118034, -0.01097890405013427], [0.1421702324043479, 0.05532084845215351, 1.1924183493141172, 0.688971396297799, 0.38215383113367796]],
@@ -27,7 +27,7 @@ link_tests = [
     )
 ]
 
-for (link,test_cols,test_aic,test_bic) in link_tests
+for (link,test_cols,test_aic,test_bic) in frequentist_tests
     CRRao.set_rng(StableRNG(123))
     model = @fitmodel((Vote ~ Age + Race + Income + Educate), turnout, LogisticRegression(), link)
     
@@ -36,7 +36,7 @@ for (link,test_cols,test_aic,test_bic) in link_tests
     @test bic(model) ≈ test_bic
 end
 
-prior_and_link_tests = [
+bayesian_tests = [
     (
         Prior_Ridge(),
         Probit(),
@@ -87,7 +87,7 @@ prior_and_link_tests = [
     )
 ]
 
-for (prior, link, test_summaries, test_quantiles) in prior_and_link_tests
+for (prior, link, test_summaries, test_quantiles) in bayesian_tests
     CRRao.set_rng(StableRNG(123))
     model = @fitmodel((Vote ~ Age + Race + Income + Educate), turnout, LogisticRegression(), link, prior)
 
