@@ -4,11 +4,11 @@ on:
     push:
         branches:
             - main
-            - test
+            - tests
     pull_request:
         branches: 
             - main
-            - test
+            - tests
     # can add tags if needed
 
 jobs: 
